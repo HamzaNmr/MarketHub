@@ -1,0 +1,43 @@
+{
+  "name": "@market-hub/auth-service",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "node src/main.ts"
+  },
+  "nx": {
+    "targets": {
+      "name": "@market-hub/auth-service",
+      "projectType": "application",
+      "sourceRoot": "@market-hub/auth-service/src",
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@market-hub/auth-service:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@market-hub/auth-service:build:development"
+          },
+          "production": {
+            "buildTarget": "@market-hub/auth-service:build:production"
+          }
+        }
+      },
+      "test": {
+        "options": {
+          "passWithNoTests": true
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>MarketHub OTP Verification</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f6f8;
+      font-family: 'Inter', Arial, sans-serif;
+      color: #1c1e21;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 440px;
+      margin: 48px auto;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 6px 32px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0070f3, #00c6ff);
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .header img {
+      height: 36px;
+    }
+
+    .content {
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 700;
+      margin: 0 0 16px 0;
+      color: #11181c;
+    }
+
+    p {
+      margin: 0 0 18px 0;
+      font-size: 1em;
+      color: #4a4f55;
+      line-height: 1.6;
+    }
+
+    .otp {
+      display: inline-block;
+      width: 100%;
+      letter-spacing: 14px;
+      font-size: 2.2em;
+      font-weight: 700;
+      background: #f0f3f8;
+      border-radius: 10px;
+      padding: 22px 0;
+      color: #0070f3;
+      margin: 28px 0 20px 0;
+      font-family: 'SFMono-Regular', Consolas, monospace;
+    }
+
+    .note {
+      font-size: 0.95em;
+      color: #6c737f;
+      margin-top: 12px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 32px 24px 28px;
+      font-size: 12px;
+      color: #9ea6b0;
+      background: #fafbfc;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        margin: 24px auto;
+      }
+      .otp {
+        letter-spacing: 10px;
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png" alt="MarketHub Logo">
+    </div>
+    <div class="content">
+      <h2>Verify your email address</h2>
+      <p>Hi <%= name %>,</p>
+      <p>Use the following one-time code to activate your MarketHub account:</p>
+      <div class="otp"><%= otp %></div>
+      <p class="note">
+        <strong>Note:</strong> This code will expire in 5 minutes for your security.
+      </p>
+      <p>If you didn’t request this code, you can safely ignore this email.</p>
+    </div>
+    <div class="footer">
+      &copy; <%= new Date().getFullYear() %> MarketHub. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>
