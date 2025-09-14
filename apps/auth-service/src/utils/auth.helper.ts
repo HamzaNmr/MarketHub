@@ -4,7 +4,7 @@ import { NextFunction } from 'express';
 import redis from '@packages/libs/redis';
 import { sendEmail } from './sendMail';
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/g; // Simple email regex for validation
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex for validation
 
 export const validateRegistrationData = (data: any, userType: "user" | "seller") => {
     const { email, password, name, phone_number, country } = data;
@@ -19,7 +19,6 @@ export const validateRegistrationData = (data: any, userType: "user" | "seller")
     }
 
     if(!emailRegex.test(email)) {
-        console.log(email)
         throw new ValidationError("Invalid email format.");
     }
 }
@@ -27,29 +26,17 @@ export const validateRegistrationData = (data: any, userType: "user" | "seller")
 export const checkOtpRestrictions = async (email: string, next: NextFunction) => {
     const isOtpLocked = await redis.get(`otp_lock:${email}`);
     if(isOtpLocked) {
-        return next(
-            new ValidationError(
-                "Account is temporarily locked due to multiple failed OTP attempts. Please try again after 30 minutes."
-            )
-        );
+        return next(new ValidationError("Account is temporarily locked due to multiple failed OTP attempts. Please try again after 30 minutes."));
     }
 
     const isOtpSpamLocked = await redis.get(`otp_spam_lock:${email}`);
     if(isOtpSpamLocked) {
-        return next(
-            new ValidationError(
-                "Too many OTP requests. Please try again after 1 hour."
-            )
-        );
+        return next(new ValidationError("Too many OTP requests. Please try again after 1 hour."));
     }
 
     const isOtpCooldown = await redis.get(`otp_cooldown:${email}`);
     if(isOtpCooldown) {
-        return next(
-            new ValidationError(
-                "OTP already sent. Please wait 1 minute before requesting a new OTP."
-            )
-        );
+        return next(new ValidationError("OTP already sent. Please wait 1 minute before requesting a new OTP."));
     }
 }
 
@@ -74,4 +61,26 @@ export const sendOtp = async (email: string, name: string, template: string) => 
     await sendEmail(email, "Verify Your Email", template, { name, otp });
     await redis.set(`otp:${email}`, otp, 'EX', 300); // OTP valid for 5 minutes
     await redis.set(`otp_cooldown:${email}`, 'true', 'EX', 60); // Cooldown of 1 minute (to prevent spamming so that user can't request OTP again within 1 minute)
+}
+
+export const verifyOtp = async (email: string, otp: string, next: NextFunction) => {
+    const storedOtp = await redis.get(`otp:${email}`);
+    if(!storedOtp) {
+        throw new ValidationError("Invalid or expired OTP.");
+    }
+
+    const failedAttemptsKey = `otp_failed_attempts:${email}`;
+    let failedAttempts = parseInt((await redis.get(failedAttemptsKey)) || '0');
+
+    if(storedOtp !== otp) {
+        if(failedAttempts >= 2) {
+            await redis.set(`otp_lock:${email}`, 'locked', 'EX', 1800); // Lock for 30 minutes
+            await redis.del(`otp:${email}`, failedAttemptsKey); // Reset failed attempts after locking
+            throw new ValidationError("Account is temporarily locked due to multiple failed OTP attempts. Please try again after 30 minutes.");
+        }
+        await redis.set(failedAttemptsKey, failedAttempts + 1, 'EX', 300); // Track failed attempts for 5 minutes
+        throw new ValidationError(`Incorrect OTP. You have ${2 - failedAttempts} attempts left.`);
+    }
+
+    await redis.del(`otp:${email}`, failedAttemptsKey); // Reset failed attempts on successful verification
 }

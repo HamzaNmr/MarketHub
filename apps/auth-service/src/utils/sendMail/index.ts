@@ -21,6 +21,7 @@ const renderEmailTemplate = async (
     data: Record<string, any>
 ): Promise<string> => {
     const templatePath = path.join(
+        "apps",
         "auth-service",
         "src",
         "utils",
