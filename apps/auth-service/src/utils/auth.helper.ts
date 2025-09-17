@@ -1,8 +1,9 @@
 import crypto from 'crypto';
 import { ValidationError } from '@packages/error-handler';
-import { NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import redis from '@packages/libs/redis';
 import { sendEmail } from './sendMail';
+import prisma from '@/packages/libs/prisma';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex for validation
 
@@ -83,4 +84,57 @@ export const verifyOtp = async (email: string, otp: string, next: NextFunction) 
     }
 
     await redis.del(`otp:${email}`, failedAttemptsKey); // Reset failed attempts on successful verification
+}
+
+export const handleForgotPassword = async (
+    req: Request, 
+    res: Response, 
+    next: NextFunction, 
+    userType: "user" | "seller"
+) => {
+    try {
+        const { email } = req.body;
+
+        if(!email) return next(new ValidationError("Email is required."));
+
+        const user = userType === "user" && await prisma.users.findUnique({ where: { email } });
+
+        if(!user) {
+            return next(new ValidationError(`${userType} account not found.`));
+        }
+
+        await checkOtpRestrictions(email, next);
+        await trackOtpRequests(email, next);
+        await sendOtp(email, user.name, "forgot-password-user-mail");
+
+        res.status(200).json({
+            success: true,
+            message: "OTP sent to your email for password reset. Please check your inbox."
+        });
+    } catch (error) {
+        return next(error);
+    }
+}
+
+export const verifyForgotPasswordOtp = async (
+    req: Request, 
+    res: Response, 
+    next: NextFunction,
+) => {
+    try {
+        const { email, otp } = req.body;
+
+        if(!email || !otp) {
+            return next(new ValidationError("Email and OTP are required."));
+        }
+        
+        await verifyOtp(email, otp, next);
+
+        res.status(200).json({
+            success: true,
+            message: "OTP verified successfully. You can now reset your password."
+        });
+    } catch (error) {
+        return next(error);
+    }
 }
