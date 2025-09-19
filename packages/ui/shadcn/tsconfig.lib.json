@@ -1,12 +1,13 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "rootDir": "../../",
+    "outDir": "../../../dist/out-tsc",
     "types": [
       "node",
       "@nx/react/typings/cssmodule.d.ts",
-      "@nx/react/typings/image.d.ts"
+      "@nx/react/typings/image.d.ts",
+      "next",
+      "@nx/next/typings/image.d.ts"
     ]
   },
   "exclude": [
@@ -21,10 +22,9 @@
     "src/**/*.test.jsx"
   ],
   "include": [
-    "src/**/*.js",
-    "src/**/*.jsx",
-    "src/**/*.ts",
+    "src/**/*.js", 
+    "src/**/*.jsx", 
+    "src/**/*.ts", 
     "src/**/*.tsx",
-    "src/libs/**/*.ts"
   ]
 }

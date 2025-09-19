@@ -7,8 +7,9 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["../../*"]
-      
+      "@market-hub/*": ["../../../*"],
+      "@shadcn/components/*": ["./src/components/ui/*"],
+      "@shadcn/lib/*": ["./src/lib/*"]
     }
   },
   "files": [],
@@ -18,5 +19,5 @@
       "path": "./tsconfig.lib.json"
     }
   ],
-  "extends": "../../tsconfig.base.json"
+  "extends": "../../../tsconfig.base.json",
 }

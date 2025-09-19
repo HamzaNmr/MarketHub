@@ -1,5 +1,5 @@
-import Header from '../shared/widgets/header';
-import './global.css';
+import './style.css';
+import Header from 'src/shared/widgets/header';
 
 export const metadata = {
   title: 'Welcome to user-ui',

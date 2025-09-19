@@ -24,6 +24,13 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
+    "paths": {
+      "@market-hub/*": ["../../*"],
+      "@shadcn/components/*": ["../../packages/ui/shadcn/src/components/ui/*"],
+      "@shadcn/lib/*": ["../../packages/ui/shadcn/src/lib/*"],
+      
+    },
   },
   "include": [
     "**/*.js",
@@ -42,5 +49,5 @@
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts"
-  ]
+  ],
 }

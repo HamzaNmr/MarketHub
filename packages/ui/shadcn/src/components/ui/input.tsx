@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@/packages/ui/src/libs/utils"
+import { cn } from "@shadcn/lib/utils"
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (

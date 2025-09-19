@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { checkOtpRestrictions, handleForgotPassword, sendOtp, trackOtpRequests, validateRegistrationData, verifyForgotPasswordOtp, verifyOtp } from '../utils/auth.helper';
-import prisma from '@packages/libs/prisma';
-import { AuthenticationError, ValidationError } from '@packages/error-handler';
+import prisma from '@market-hub/packages/libs/prisma';
+import { AuthenticationError, ValidationError } from '@market-hub/packages/error-handler';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { setCookie } from '../utils/cookies/set-cookie';

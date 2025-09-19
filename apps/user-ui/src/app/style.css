@@ -1,0 +1,4 @@
+@import "../../../../packages/ui/shadcn/src/global.css";
+@source "../../src/**/*.{ts,tsx,js,jsx}";
+@source "../../../../packages//ui/shadcn/src/**/*.{ts,tsx,js,jsx}";
+

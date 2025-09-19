@@ -1,9 +1,9 @@
 import crypto from 'crypto';
-import { ValidationError } from '@packages/error-handler';
 import { Request, Response, NextFunction } from 'express';
-import redis from '@packages/libs/redis';
 import { sendEmail } from './sendMail';
-import prisma from '@/packages/libs/prisma';
+import redis from '@market-hub/packages/libs/redis';
+import prisma from '@market-hub/packages/libs/prisma';
+import { ValidationError } from '@market-hub/packages/error-handler';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex for validation
 

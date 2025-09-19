@@ -1,11 +1,29 @@
 {
   "compilerOptions": {
+    "composite": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "lib": ["es2022"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2022",
+    "customConditions": ["@market-hub/source"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@packages/*": ["packages/*"],
-      "@market-hub/ui/components/*": ["packages/ui/src/components/ui/*"],
-      "@market-hub/ui/utils": ["packages/ui/src/libs/utils.ts"]
+      "@market-hub/*": ["./*"],
+      "@shadcn/components/*": ["packages/ui/shadcn/src/components/ui/*"],
+      "@shadcn/lib/*": ["packages/ui/shadcn/src/libs/*"]
     }
   }
 }

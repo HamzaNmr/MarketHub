@@ -1,7 +1,11 @@
-import React from 'react'
+import { Button } from "@shadcn/components/button";
 
 export default function RootPage() {
   return (
-    <div>RootPage</div>
+    <div>
+      <Button>
+        Hello Style
+      </Button>
+    </div>
   )
 }

@@ -10,7 +10,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@packages': resolve(__dirname, '../../packages'),
+      '@market-hub/packages': resolve(__dirname, '../../packages'),
     },
     extensions: ['.ts', '.js'],
   },

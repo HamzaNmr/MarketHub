@@ -21,10 +21,9 @@
     "customConditions": ["@market-hub/source"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@packages/*": ["packages/*"],
-      "@market-hub/ui/components/*": ["packages/ui/src/components/ui/*"],
-      "@market-hub/ui/utils": ["packages/ui/src/libs/utils.ts"],
+      "@market-hub/*": ["./*"],
+      "@shadcn/components/*": ["packages/ui/shadcn/src/components/ui/*"],
+      "@shadcn/lib/*": ["packages/ui/shadcn/src/libs/*"]
     }
   }
 }
