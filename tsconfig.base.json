@@ -7,10 +7,9 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "baseUrl": ".",
     "lib": ["es2022"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
@@ -20,9 +19,12 @@
     "strict": true,
     "target": "es2022",
     "customConditions": ["@market-hub/source"],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@packages/*": ["packages/*"]
+      "@packages/*": ["packages/*"],
+      "@market-hub/ui/components/*": ["packages/ui/src/components/ui/*"],
+      "@market-hub/ui/utils": ["packages/ui/src/libs/utils.ts"],
     }
   }
 }

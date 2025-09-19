@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@packages/*": ["packages/*"],
+      "@market-hub/ui/components/*": ["packages/ui/src/components/ui/*"],
+      "@market-hub/ui/utils": ["packages/ui/src/libs/utils.ts"]
+    }
+  }
+}
