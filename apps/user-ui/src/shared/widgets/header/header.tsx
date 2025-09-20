@@ -2,7 +2,7 @@ import Logo from "../../base/logo"
 import Link from "next/link"
 import HeaderBottom from "./header-bottom"
 import ActionsHeaderButton from "./actions-header-buttons"
-import SearchInput from "../inputs/search-input"
+import SearchInput from "../../base/inputs/search-input"
 
 
 export default function Header() {

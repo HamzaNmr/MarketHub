@@ -1,5 +1,7 @@
 import './style.css';
 import Header from 'src/shared/widgets/header';
+import { Toaster } from '@shadcn/components/sonner';
+import { ThemeProvider } from '@market-hub/packages/ui/shadcn/src/components/providers/theme-provider';
 
 export const metadata = {
   title: 'Welcome to user-ui',
@@ -15,9 +17,17 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <Header />
-        <main className='px-12 py-5'>
-          {children}
-        </main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className='px-12 py-5'>
+            {children}
+          </main>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
