@@ -18,9 +18,9 @@ import { Button } from '@shadcn/components/button'
 import { Input } from '@shadcn/components/input'
 
 import { PasswordInput } from '@shadcn/components/password-input'
-import { LoginFormSchema } from '../../lib/validation-schemas/login-form.schema'
 import AuthForm from './auth-form'
 import { Checkbox } from '@shadcn/components/checkbox'
+import { LoginFormSchema } from '../../lib/validation.schemas'
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof LoginFormSchema>>({
@@ -58,7 +58,9 @@ export default function LoginForm() {
     <AuthForm
       title='Login to MarketHub'
       description='Enter your email and password to login to your account.'
-      isLogin
+      backButtonHref='/login'
+      backButtonLabel='Don&apos;t have an account? Register'
+      showOAuth
       form={
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -90,7 +92,7 @@ export default function LoginForm() {
                     <div className="flex justify-between items-center">
                       <FormLabel htmlFor="password">Password</FormLabel>
                       <Link
-                        href="#"
+                        href="/forgot-password"
                         className="ml-auto inline-block text-sm underline"
                       >
                         Forgot your password?

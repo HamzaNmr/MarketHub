@@ -15,15 +15,17 @@ interface AuthFormProps {
     title: string
     description: string
     form: ReactNode
-    isLogin?: boolean
-    isOAuth?: boolean
+    backButtonLabel?: string
+    backButtonHref?: string
+    showOAuth?: boolean
 }
 export default function AuthForm({
     title,
     description,
     form,
-    isLogin = true,
-    isOAuth = true,
+    backButtonLabel,
+    backButtonHref = "/",
+    showOAuth = false,
 }: AuthFormProps) {
   return (
     <Card className="mx-auto w-full md:w-md lg:w-lg">
@@ -35,22 +37,14 @@ export default function AuthForm({
       </CardHeader>
       <CardContent>
         {form}
-        {isOAuth && (
+        {showOAuth && (
           <OAuthButtons />
         )}
-        {isLogin ? (
+        {backButtonLabel && (
             <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{' '}
-            <Link href="/register" className="underline">
-                Register
-            </Link>
-            </div> 
-        ) : (
-            <div className="mt-4 text-center text-sm">
-                Already have an account?{' '}
-                <Link href="/login" className="underline">
-                    Login
-                </Link>
+              <Link href={backButtonHref} className="underline">
+                  {backButtonLabel}
+              </Link>
             </div> 
         )}
       </CardContent>
