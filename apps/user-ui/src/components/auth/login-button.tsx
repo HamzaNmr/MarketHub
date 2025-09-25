@@ -5,7 +5,7 @@ import React from 'react'
 export default function LoginButton() {
   return (
     <Link 
-      href={"/login"} 
+      href={"/auth/login"} 
       className={buttonVariants({ variant: "default"})}
     >
       Login

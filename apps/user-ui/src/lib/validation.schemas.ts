@@ -32,9 +32,12 @@ export const RegisterFormSchema = z
     // phone: PhoneSchema,
     password: PasswordSchema,
     // confirm_password: z.string(),
-    otp: z.string().optional()
   })
-  // .refine((data) => data.password === data.confirm_password, {
-  //   path: ['confirmPassword'],
-  //   message: 'Passwords do not match',
-  // })
+
+export const VerifyOtpFormSchema = z
+  .object({
+    // name: NameSchema,
+    // email: EmailSchema,
+    // password: PasswordSchema,
+    otp: z.string().min(4, { message: "OTP is required."})
+  })

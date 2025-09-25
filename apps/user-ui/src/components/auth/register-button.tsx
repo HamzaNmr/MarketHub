@@ -5,7 +5,7 @@ import React from 'react'
 export default function RegisterButton() {
   return (
     <Link 
-      href={"/register"} 
+      href={"/auth/register"} 
       className={buttonVariants({ variant: "secondary"})}
     >
       Register
