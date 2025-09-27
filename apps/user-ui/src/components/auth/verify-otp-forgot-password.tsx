@@ -21,64 +21,63 @@ import {
 } from '@shadcn/components/input-otp'
 import { Button } from '@shadcn/components/button'
 import { LoaderIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useResendTimer } from '../../hooks/use-resend-timer'
 import { VerifyOtpFormSchema } from '../../lib/validation.schemas'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
-import { useAuthState } from '../../hooks/use-auth-state'
 
-export default function VerifyOtpForm() {
-  const { userData, setUserData, setShowOtp } = useAuthState()
-  const { timer, canResend } = useResendTimer(60)
-  const router = useRouter()
+export default function VerifyOtpForgotPasswordForm() {
+    const { timer, canResend } = useResendTimer(60)
+    const searchParams = useSearchParams()
+    const router = useRouter()
 
-  const form = useForm<z.infer<typeof VerifyOtpFormSchema>>({
-    resolver: zodResolver(VerifyOtpFormSchema),
-    defaultValues: {
-      otp: '',
-    },
-  })
+    const form = useForm<z.infer<typeof VerifyOtpFormSchema>>({
+        resolver: zodResolver(VerifyOtpFormSchema),
+        defaultValues: {
+        otp: '',
+        },
+    })
 
-  const verifyOtpMutation = useMutation({
-    mutationFn: async (data: z.infer<typeof VerifyOtpFormSchema>) => {
-      if (!userData) throw new Error('User data not found') 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/verify-user`,
-        {
-          ...userData,
-          otp: data.otp,
-        }
-      ) 
-      return response.data 
-    },
-    onSuccess: () => {
-      toast.success('OTP verified successfully!')
-      setUserData(null)
-      setShowOtp(false)
-      router.push('/auth/login') 
-    },
-    onError: (error: any) => {
-      if (axios.isAxiosError(error)) {
-        const message = error.response?.data?.message || 'Failed to verify OTP'
-        toast.error(message) 
-      } else if (error instanceof Error) {
-        toast.error(error.message) 
-      } else {
-        toast.error('An unknown error occurred') 
-      }
-    },
-  }) 
+    const verifyOtpMutation = useMutation({
+        mutationFn: async (data: z.infer<typeof VerifyOtpFormSchema>) => {
+            const userEmail = searchParams.get("email")
+            if (!userEmail) throw new Error('User data not found') 
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_URI}/api/verify-forgot-password-user`,
+                {
+                email: userEmail,
+                otp: data.otp,
+                }
+            ) 
+            return response.data 
+        },
+        onSuccess: () => {
+            toast.success('OTP verified successfully!')
+            const userEmail = searchParams.get("email")
+            router.push(`/auth/forgot-password?step=3&email=${userEmail}`) 
+        },
+        onError: (error: any) => {
+            if (axios.isAxiosError(error)) {
+                const message = error.response?.data?.message || 'Failed to verify OTP'
+                toast.error(message) 
+            } else if (error instanceof Error) {
+                toast.error(error.message) 
+            } else {
+                toast.error('An unknown error occurred') 
+            }
+        },
+    }) 
 
 
-  async function onSubmit(values: z.infer<typeof VerifyOtpFormSchema>) {
-    verifyOtpMutation.mutate(values)
-  }
+    async function onSubmit(values: z.infer<typeof VerifyOtpFormSchema>) {
+        verifyOtpMutation.mutate(values)
+    }
 
-  const resendOtp = () => {
+    const resendOtp = () => {
 
-  }
+    }
 
   return (
     <AuthForm 

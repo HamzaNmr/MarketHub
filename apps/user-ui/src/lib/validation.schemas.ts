@@ -26,18 +26,24 @@ export const LoginFormSchema = z.object({
 })
 
 export const RegisterFormSchema = z
-  .object({
-    name: NameSchema,
-    email: EmailSchema,
-    // phone: PhoneSchema,
-    password: PasswordSchema,
-    // confirm_password: z.string(),
-  })
+.object({
+  name: NameSchema,
+  email: EmailSchema,
+  // phone: PhoneSchema,
+  password: PasswordSchema,
+  // confirm_password: z.string(),
+})
 
 export const VerifyOtpFormSchema = z
-  .object({
-    // name: NameSchema,
-    // email: EmailSchema,
-    // password: PasswordSchema,
-    otp: z.string().min(4, { message: "OTP is required."})
-  })
+.object({
+  otp: z.string().min(4, { message: "OTP is required."})
+})
+
+export const ForgotPasswordFormSchema = z.object({
+  email: EmailSchema,
+})
+
+export const ResetPasswordFormSchema = z.object({
+  password: PasswordSchema,
+   // confirm_password: z.string(),
+})
